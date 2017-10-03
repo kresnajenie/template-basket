@@ -160,8 +160,8 @@ def getMenuUtama(team_home,team_away,skor_home,skor_away):
 	file_name = nama_cabang.title() + "_" + team_home.title() + " vs " + team_away.title() + "_" + (time.strftime("%d-%m-%Y")) + ".png"
 	print file_name
 	# save ke file
-	pygame.image.save(canvas, "../foto_result/Men's-Basketball/"+file_name)
+	pygame.image.save(canvas, "../foto_result/"+ c.CABANG"/"+file_name)
 	# send to rabbitMQ
 	#por.kirim_gambar("subs.png","subs.png")
-	sys.exit(0)
+	#sys.exit(0)
 	return

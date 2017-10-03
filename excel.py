@@ -11,7 +11,7 @@ filename = 'hasil-pertandingan.xlsx'
 
 wb = load_workbook(filename)  
 sheets = wb.get_sheet_names()  
-worksheet = wb[sheets[1]]
+worksheet = wb[sheets[2]]
 
 done = False
 
@@ -29,12 +29,13 @@ for i in tuple(worksheet.rows):
 	reports.append(strData)
 	#print strData
 	strItem = strData.split("|")
-	team_home = strItem[2]
-	team_away = strItem[6]
-	score_home = strItem[3]
-	score_away = strItem[5]
-	print strItem[0], strItem[1], strItem[2], strItem[3], strItem[4], strItem[5], strItem[6]
-	#sd.getMenuUtama(team_home, team_away, score_home, score_away)
+	if strItem[0].isdigit():
+		team_home = strItem[2]
+		team_away = strItem[6]
+		score_home = strItem[3]
+		score_away = strItem[5]
+		print strItem[0], strItem[1], strItem[2], strItem[3], strItem[4], strItem[5], strItem[6]
+		sd.getMenuUtama(team_home, team_away, score_home, score_away)
 	#sd.getMenuUtama(team_home, team_away, score_home, score_away)
 	#sd.getMenuUtama(team_home, team_away, score_home, score_away)
 	
