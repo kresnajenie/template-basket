@@ -3,6 +3,8 @@ import constant as c
 import sys
 from math import floor
 import time
+import utility as u
+#import excel as ex
 
 def getTeam(nama_file):
 
@@ -18,33 +20,53 @@ def getTeam(nama_file):
 	        	pass
 	return team
 
-def getMenuUtama(team_home, team_away, file_foto):
+def drawBoxTransparent(canvas, top,left, width,height, alpha, color):
+
+	#print top, left
+	s = pygame.Surface((width,height))  # the size of your rect
+	s.set_alpha(alpha)                # alpha level
+	s.fill(color)           # this fills the entire surface
+	canvas.blit(s, (left,top))
+
+
+def getMenuUtama(team_home,team_away,skor_home,skor_away):
 	#variabel
 	x = 0
 	y = 0
-	x_kotak = 448
-	y_kotak = 448
 
-	x_skor = 320
-	y_skor = 384
+	width_cabang = 1627
+	height_cabang = 226
 
-	left_skor_home = 508
-	top_skor_home = 1444
+	left_cabang = 203
+	top_cabang = 197
 
-	left_skor_away = 1200
-	top_skor_away = 1444
+	width_title = 1459
+	height_title = 148
 
-	left_home = 76
-	top_home = 1444
+	left_title = 269
+	top_title = 442
 
-	left_away = 1496
-	top_away = 1444
+	width_score = 514
+	height_score = 484
 
-	x_final = 376
-	y_final = 296
+	left_score_home = 230
+	top_score_home = 1349
 
-	left_final = 820
-	top_final = 1488
+	left_score_away = 1286
+	top_score_away = 1349
+
+	width_team = 667
+	height_team = 193
+
+	left_team_away = 1208
+	top_team_away = 1752
+
+	left_team_home = 155
+	top_team_home = 1752
+
+	left_final = 848
+	top_fial = 1502
+
 
 	hijau = (0,255,126)
 	putih = (255,255,255)
@@ -52,46 +74,20 @@ def getMenuUtama(team_home, team_away, file_foto):
 	merah = (255,26,26)
 	kuning = (255,255,0)
 
-	
-	nama_pemain = raw_input("Nama Pemain ").upper()	
-	points = raw_input("Points MVP berapa? ").lower().strip()
-	assists = raw_input("Assists MVP berapa? ").lower().strip()
-	rebounds = raw_input("Rebounds MVP berapa? ").lower().strip()
-	steals = raw_input("Steals MVP berapa? ").lower().strip()
-	blocks = raw_input("Blocks MVP berapa? ").lower().strip()
-	score_home = raw_input("Score Home? ").lower().strip()
-	score_away = raw_input("Score Away? ").lower().strip()
 
+	#data = ex.getData()
+	team = u.getTeam()
 
-	foto = pygame.image.load(file_foto)
+	nama_cabang = c.CABANG
+	team_home = team_home
+	team_away = team_away
+	score_home = skor_home
+	score_away = skor_away
+	title = "| " + str(team_home).upper() + " VS " + str(team_away).upper() + " |"
+	#por = c.por_FILENAME
+	background_img = c.BACK_FILENAME
 	final = pygame.image.load("final.png")
-
-	if team_home == "kanisius":
-		logo_home = pygame.image.load("cc.png")
-	elif team_home == "smabel":
-		logo_home = pygame.image.load("smabel.png")
-	elif team_home == "smpn74":
-		logo_home = pygame.image.load("smpn74.png")
-	elif team_home == "smpn216":
-		logo_home = pygame.image.load("smpn216.png")
-	elif team_home == "p7":
-		logo_home = pygame.image.load("p7.png")
-	if team_home == "ipeka":
-		logo_home = pygame.image.load("ipeka.png")
-
-
-	if team_away == "kanisius":
-		logo_away = pygame.image.load("cc.png")
-	elif team_away == "smabel":
-		logo_away = pygame.image.load("smabel.png")
-	elif team_away == "smpn74":
-		logo_away = pygame.image.load("smpn74.png")
-	elif team_away == "smpn216":
-		logo_away = pygame.image.load("smpn216.png")
-	elif team_away == "p7":
-		logo_away = pygame.image.load("p7.png")
-	if team_away == "ipeka":
-		logo_away = pygame.image.load("ipeka.png")
+	background = pygame.image.load(background_img)
 
 
 	# gambar di canvas
@@ -99,124 +95,60 @@ def getMenuUtama(team_home, team_away, file_foto):
 	width = 2000
 	height = 2000
 	canvas = pygame.display.set_mode((width, height))
-	score_font = pygame.font.Font(c.FONT_FILENAME, c.FONT_SCORE_SIZE)
-	pemain_font = pygame.font.Font(c.FONT_FILENAME, c.FONT_PEMAIN_SIZE)
-	points_int_font = pygame.font.Font(c.FONT_FILENAME, c.FONT_POINTS_INT_SIZE)
-	points_str_font = pygame.font.Font(c.FONT_FILENAME, c.FONT_POINTS_STR_SIZE)
-	astreb_int_font = pygame.font.Font(c.FONT_FILENAME, c.FONT_ASTREB_INT_SIZE)
-	astreb_str_font = pygame.font.Font(c.FONT_FILENAME, c.FONT_ASTREB_STR_SIZE)
+	score_font = pygame.font.Font(c.FONT_FILENAME, c.FONT_POINTS_INT_SIZE)
+	team_font = pygame.font.Font(c.FONT_FILENAME, c.FONT_TEAM_STR_SIZE)
+	title_font = pygame.font.Font(c.FONT_FILENAME, c.FONT_TITLE_STR_SIZE)
+	cabang_font = pygame.font.Font(c.FONT_FILENAME, c.FONT_CABANG_STR_SIZE)
 
-	#kotak = pygame.Rect(0, 0, width, height)
-	#arrow_up = pygame.image.load("arrow.png")
-	#arrow_down = pygame.image.load("arrows.png")
-	# total score dictionary
-
-	
-
-	x_tulisan = 288
-	y_tulisan = 120
-	y_tulisan_margin = 260
-
-	x_angka = 84
-	y_angka = 80
-	y_angka_margin = 260
 
 	done = False
 
 #while not done:
 
-	print_points_int = points_int_font.render(points, 1, putih)
-	print_points_str = points_str_font.render("PTS", 1, putih)
-	print_assists_int = astreb_int_font.render(assists, 1, putih)
-	print_assists_str = astreb_str_font.render("AST", 1, putih)
-	print_rebounds_int = astreb_int_font.render(rebounds, 1, putih)
-	print_rebounds_str = astreb_str_font.render("REB", 1, putih)
-	print_steals_int = astreb_int_font.render(steals, 1, putih)
-	print_steals_str = astreb_str_font.render("STL", 1, putih)
-	print_blocks_int = astreb_int_font.render(blocks, 1, putih)
-	print_blocks_str = astreb_str_font.render("BLK", 1, putih)
 	print_score_home = score_font.render(score_home, 1, putih)
 	print_score_away = score_font.render(score_away, 1, putih)
-	print_nama_pemain = pemain_font.render(nama_pemain, 1, putih)
+	print_nama_cabang_shadow = cabang_font.render(nama_cabang, 1, hitam)
+	print_nama_cabang = cabang_font.render(nama_cabang, 1, putih)
+	print_title_shadow = title_font.render(title, 1, hitam)
+	print_title = title_font.render(title, 1, putih)
+	print_team_home = team_font.render(team_home, 1, putih)
+	print_team_away = team_font.render(team_away, 1 , putih)
 
-	x_logo_home = left_home + ((x_kotak - logo_home.get_width())/2)
-	y_logo_home = top_home + ((y_kotak - logo_home.get_height())/2)
+	x_cabang = left_cabang + ((width_cabang - print_nama_cabang.get_width())/2)
+	y_cabang = top_cabang + ((height_cabang - print_nama_cabang.get_height())/2)
 
-	x_logo_away = left_away + ((x_kotak - logo_away.get_width())/2)
-	y_logo_away = top_away + ((y_kotak - logo_away.get_height())/2)
+	x_title = left_title + ((width_title - print_title.get_width())/2)
+	y_title = top_title + ((height_title - print_title.get_height())/2)
 
-	x_skor_home = left_skor_home + ((x_skor - print_score_home.get_width())/2)
-	y_skor_home = top_skor_home + ((y_skor - print_score_home.get_height())/2)
+	x_score_home = left_score_home + ((width_score - print_score_home.get_width())/2)
+	y_score_home = top_score_home + ((height_score - print_score_home.get_height())/2)
 
-	x_skor_away = left_skor_away + ((x_skor - print_score_away.get_width())/2)
-	y_skor_away = top_skor_away + ((y_skor - print_score_away.get_height())/2)
+	x_score_away = left_score_away + ((width_score - print_score_away.get_width())/2)
+	y_score_away = top_score_away + ((height_score - print_score_away.get_height())/2)
 
-	x_final_last = left_final + ((x_final - final.get_width())/2)
-	y_final_last = top_final + ((y_final - final.get_height())/2)
+	x_team_home = left_team_home + ((width_team - print_team_home.get_width())/2)
+	y_team_home = top_team_home + ((height_team - print_team_home.get_height())/2)
 
-	width_pemain = print_nama_pemain.get_width()
-	height_pemain = print_nama_pemain.get_height()
-	left_pemain = width - width_pemain
-	top_pemain = 200
+	x_team_away = left_team_away + ((width_team - print_team_away.get_width())/2)
+	y_team_away = top_team_away + ((height_team - print_team_away.get_height())/2)
+	#width_pemain = print_nama_cabang.get_width()
+	#height_pemain = print_nama_cabang.get_height()
+	#left_pemain = width - width_pemain - 120
+	#top_pemain = 150
 
-	canvas.blit(foto, (0,0))
-	canvas.blit(logo_home, (x_logo_home,y_logo_home))
-	canvas.blit(logo_away, (x_logo_away,y_logo_away))
-	canvas.blit(final, (x_final_last,y_final_last))
-	canvas.blit(print_nama_pemain, (left_pemain,top_pemain))
+	canvas.blit(background, (0,0))
+	#drawBoxTransparent(canvas,50,50,logo_por.get_width(),logo_por.get_height(),128,putih)
+	#canvas.blit(logo_por, (50,50))
+	canvas.blit(print_nama_cabang_shadow, (x_cabang + 3,y_cabang + 3))
+	canvas.blit(print_nama_cabang, (x_cabang,y_cabang))
+	canvas.blit(print_title_shadow, (x_title + 3,y_title + 3))
+	canvas.blit(print_title, (x_title,y_title))
+	canvas.blit(print_score_home, (x_score_home,y_score_home))
+	canvas.blit(print_score_away, (x_score_away,y_score_away))
+	canvas.blit(final, (left_final, top_fial))
+	canvas.blit(print_team_home, (x_team_home, y_team_home))
+	canvas.blit(print_team_away, (x_team_away, y_team_away))
 
-	canvas.blit(print_score_home, (x_skor_home, y_skor_home))
-	canvas.blit(print_score_away, (x_skor_away, y_skor_away))
-
-	if points == "0":
-		pass
-	else:
-		canvas.blit(print_points_int, (x_angka, y_angka))
-		canvas.blit(print_points_str, (x_tulisan, y_tulisan))
-		y_angka = y_angka + y_angka_margin
-		y_tulisan = y_tulisan + y_tulisan_margin
-		x_angka = x_angka + 20
-		#print points
-
-	if assists == "0":
-		pass
-	else:
-		canvas.blit(print_assists_int, (x_angka, y_angka))
-		canvas.blit(print_assists_str, (x_tulisan, y_tulisan))
-		y_angka = y_angka + y_angka_margin
-		y_tulisan = y_tulisan + y_tulisan_margin
-
-	if rebounds == "0":
-		pass
-	else:
-		canvas.blit(print_rebounds_int, (x_angka, y_angka))
-		canvas.blit(print_rebounds_str, (x_tulisan, y_tulisan))
-		y_angka = y_angka + y_angka_margin
-		y_tulisan = y_tulisan + y_tulisan_margin
-
-	if steals == "0":
-		pass
-	else:
-		canvas.blit(print_steals_int, (x_angka, y_angka))
-		canvas.blit(print_steals_str, (x_tulisan, y_tulisan))
-		y_angka = y_angka + y_angka_margin
-		y_tulisan = y_tulisan + y_tulisan_margin
-
-	if blocks == "0":
-		pass
-	else:
-		canvas.blit(print_blocks_int, (x_angka, y_angka))
-		canvas.blit(print_blocks_str, (x_tulisan, y_tulisan))
-		y_angka = y_angka + y_angka_margin
-		y_tulisan = y_tulisan + y_tulisan_margin
-
-	x_tulisan = 288
-	y_tulisan = 120
-	y_tulisan_margin = 140
-
-	x_angka = 84
-	y_angka = 80
-	y_angka_margin = 60
 
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -225,10 +157,10 @@ def getMenuUtama(team_home, team_away, file_foto):
 
 		pygame.display.flip()
 
-	file_name = nama_pemain.title() + "_" + team_home.title() + " vs " + team_away.title() + "_" + (time.strftime("%d-%m-%Y")) + ".png"
+	file_name = nama_cabang.title() + "_" + team_home.title() + " vs " + team_away.title() + "_" + (time.strftime("%d-%m-%Y")) + ".png"
 	print file_name
 	# save ke file
-	pygame.image.save(canvas, file_name)
+	pygame.image.save(canvas, "../foto_result/Men's-Basketball/"+file_name)
 	# send to rabbitMQ
 	#por.kirim_gambar("subs.png","subs.png")
 	sys.exit(0)
